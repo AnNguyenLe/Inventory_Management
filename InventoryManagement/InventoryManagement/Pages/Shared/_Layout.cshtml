@@ -1,33 +1,99 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string userName = Context.Session.GetString("userName");
+    string userEmail = Context.Session.GetString("userEmail");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - InventoryManagement</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/InventoryManagement.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styling", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">InventoryManagement</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+        <nav class="navigation-bar">
+
+            <div class="navbar-brand-wrapper">
+                <div class="navbar-brand-link-wrapper">
+                    <a class="navbar-brand-link" href="/">InventoryManagement</a>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(userEmail))
+            {
+                <div class="action-menu-wrapper">
+                    <ul class="action-menu">
+                        <li class="sub-menu-parent">
+                            <a href="/">Product</a>
+                            <ul class="sub-menu">
+                                <li><a href="/add-new-product">Add new product</a></li>
+                                <li><a href="/">All products</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        <li class="sub-menu-parent">
+                            <a href="/product-category">Category</a>
+                            <ul class="sub-menu">
+                                <li><a href="/add-new-product-category">Add new product category</a></li>
+                                <li><a href="/product-category">All product categories</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu-parent">
+                            <a href="/sale-receipt">Sale Receipt</a>
+                            <ul class="sub-menu">
+                                <li><a href="/create-sale-receipt">Create sale receipt</a></li>
+                                <li><a href="/sale-receipt">All sale receipts</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu-parent">
+                            <a href="/purchase-invoice">Purchase Invoice</a>
+                            <ul class="sub-menu">
+                                <li><a href="/create-purchase-invoice">Create purchase invoice</a></li>
+                                <li><a href="/purchase-invoice">All purchase invoices</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-menu-parent">
+                            <a href="/inventory">Inventory</a>
+                        </li>
+                        <li class="sub-menu-parent">
+                            <a href="/expired-product">Expired Products</a>
                         </li>
                     </ul>
                 </div>
+            }
+            else
+            {
+                <div class="action-menu-wrapper"></div>
+            }
+
+            <div class="login-status">
+                <ul class="register-login">
+                    @if (string.IsNullOrEmpty(userEmail))
+                    {
+                        <li class="nav-register-login">
+                            <a class="nav-link text-dark" href="/register">Register</a>
+                        </li>
+                        <li class="nav-register-login">
+
+                            <a class="nav-link text-dark" href="/login">Login</a>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-register-login">
+                            <span class="nav-link text-dark" title="@userEmail">Hi @userName</span>
+                        </li>
+                        <li class="nav-register-login">
+                            <a class="nav-link text-dark" href="/logout">Logout</a>
+                        </li>
+                    }
+                </ul>
             </div>
+
         </nav>
     </header>
     <div class="container">
@@ -38,7 +104,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - InventoryManagement - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - InventoryManagement Inc,.
         </div>
     </footer>
 

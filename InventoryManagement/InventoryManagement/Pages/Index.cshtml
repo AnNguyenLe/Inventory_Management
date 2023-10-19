@@ -1,10 +1,19 @@
 ﻿@page
 @model IndexModel
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Home page";
+
+    string userEmail = HttpContextAccessor.HttpContext.Session.GetString("userEmail");
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div style="display:flex; align-items: center; justify-content: center; height: 400px">
+    @if (string.IsNullOrEmpty(userEmail))
+    {
+        <h2>Login to use this app</h2>
+    } else
+    {
+        <h1 style="color: dodgerblue">Welcome to Inventory Management Application!</h1>
+    }
 </div>

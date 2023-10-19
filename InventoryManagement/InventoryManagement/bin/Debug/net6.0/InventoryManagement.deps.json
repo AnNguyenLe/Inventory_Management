@@ -7,14 +7,55 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {
       "InventoryManagement/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0",
+          "Services": "1.0.0"
+        },
         "runtime": {
           "InventoryManagement.dll": {}
+        }
+      },
+      "DataAccess/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "runtime": {
+          "DataAccess.dll": {}
+        }
+      },
+      "Entities/1.0.0": {
+        "runtime": {
+          "Entities.dll": {}
+        }
+      },
+      "Services/1.0.0": {
+        "dependencies": {
+          "DataAccess": "1.0.0",
+          "Entities": "1.0.0"
+        },
+        "runtime": {
+          "Services.dll": {}
         }
       }
     }
   },
   "libraries": {
     "InventoryManagement/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Entities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Services/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

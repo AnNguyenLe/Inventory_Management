@@ -28,3 +28,12 @@ C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_M
 C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\obj\Debug\net6.0\InventoryManagement.pdb
 C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\obj\Debug\net6.0\InventoryManagement.genruntimeconfig.cache
 C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\obj\Debug\net6.0\ref\InventoryManagement.dll
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\DataAccess.dll
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\Entities.dll
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\Services.dll
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\Entities.pdb
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\Services.pdb
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\DataAccess.pdb
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\obj\Debug\net6.0\InventoryManagement.csproj.AssemblyReference.cache
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\obj\Debug\net6.0\InventoryManagement.csproj.CopyComplete
+C:\Users\LENOVO\OneDrive - VNU-HCMUS\University of Science - VNU\OOP\Inventory_Management\InventoryManagement\InventoryManagement\bin\Debug\net6.0\users.json
