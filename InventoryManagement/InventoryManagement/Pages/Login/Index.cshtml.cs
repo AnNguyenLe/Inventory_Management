@@ -1,3 +1,4 @@
+using Entities;
 using InventoryManagement.ObjectCreators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,11 +28,12 @@ namespace InventoryManagement.Pages.Login
         public void OnPost()
         {
             var result = _service.Login(UserEmail, UserPassword);
-            if(result.isSuccessful && result.Data is not null)
+            if(result.IsSuccessful && result.Data is not null)
             {
                 HttpContext.Session.SetString("userEmail", UserEmail);
                 HttpContext.Session.SetString("userName", result.Data.UserName);
-                Response.Redirect("/");
+
+                Response.Redirect("/login/successful-login");
             }
             ErrorMessage = result.ErrorMessage;
         }

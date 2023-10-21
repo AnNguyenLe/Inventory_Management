@@ -1,0 +1,35 @@
+﻿@page
+@model InventoryManagement.Pages.Success.IndexModel
+@{
+}
+
+<div class="body-frame">
+    @if (string.IsNullOrEmpty(Model.ActionType))
+    {
+        <h4 style="color: dodgerblue">Processing</h4>
+    } else
+    {
+        <h4 style="color: green">@Model.ActionType successfully!</h4>        
+    }
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 82vh;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        setTimeout(() => {
+            window.location.href = "@Model.RedirectTo"
+        }, 800)
+    </script>
+}

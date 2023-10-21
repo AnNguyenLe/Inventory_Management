@@ -1,6 +1,22 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http.Extensions;
+@{
     string userName = Context.Session.GetString("userName");
     string userEmail = Context.Session.GetString("userEmail");
+
+    var renderedUrl = Url.Action()?.ToLower();
+    if (string.IsNullOrEmpty(userEmail))
+    {
+        switch (renderedUrl)
+        {
+            case "/":
+            case "/login":
+            case "/register":
+                break;
+            default:
+                Context.Response.Redirect("/");
+                break;
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -28,10 +44,10 @@
                 <div class="action-menu-wrapper">
                     <ul class="action-menu">
                         <li class="sub-menu-parent">
-                            <a href="/">Product</a>
+                            <a href="/product-list">Product</a>
                             <ul class="sub-menu">
                                 <li><a href="/add-new-product">Add new product</a></li>
-                                <li><a href="/">All products</a></li>
+                                <li><a href="/product-list">All products</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu-parent">

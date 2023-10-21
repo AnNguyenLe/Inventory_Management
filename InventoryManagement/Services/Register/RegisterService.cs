@@ -7,8 +7,8 @@ namespace Services.Register;
 
 public class RegisterService: IRegisterService
 {
-    private IUserDataAccess _repository;
-    public RegisterService(IUserDataAccess repository) 
+    private IDataAccess<User> _repository;
+    public RegisterService(IDataAccess<User> repository) 
     {
         _repository = repository;
     }
@@ -35,7 +35,7 @@ public class RegisterService: IRegisterService
             return new ServiceResult<User>("Not correct email format. Make sure you input a valid email format.");
         }
 
-        var users = _repository.GetUsers();
+        var users = _repository.GetAll();
 
         var doesUserExist = users.Any(u => u.Email == user.Email);
 
@@ -44,7 +44,7 @@ public class RegisterService: IRegisterService
             return new ServiceResult<User>("This email had been registed already.");
         }
 
-        _repository.AddUser(user);
+        _repository.Add(user);
         return new ServiceResult<User>(user);
     }
 }

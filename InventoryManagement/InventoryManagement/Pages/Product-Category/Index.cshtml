@@ -1,0 +1,130 @@
+﻿@page
+@model InventoryManagement.Pages.Product_Category.IndexModel
+@{
+}
+@if (string.IsNullOrEmpty(Model.SearchText))
+{
+    <h2 style="padding: 1rem 0">List of Product Categories</h2>
+}
+else
+{
+    <h2 style="padding: 1rem 0">Matched Product Categories for keyword '@Model.SearchText'</h2>
+}
+
+<div style="padding-bottom: 1.5rem; display: flex; align-items: center">
+    @if (string.IsNullOrEmpty(Model.SearchText))
+    {
+        <a href="/add-new-product-category" class="action-button add-new-product">Add new product category</a>
+    }
+    else
+    {
+        <a href="/product-category" class="action-button add-new-product">Back to all categories</a>
+    }
+    <div class="search-product-wrapper">
+        <form method="POST">
+            <input class="search-input" type="text" name="searchText" value="@Model.SearchText" placeholder="Search product category..." />
+            <input class="action-button" type="submit" value="Search" />
+        </form>
+    </div>
+</div>
+
+@if (Model.Categories.Count == 0 && string.IsNullOrEmpty(Model.SearchText))
+{
+    <p>No Data...</p>
+}
+else if (Model.Categories.Count == 0 && !string.IsNullOrEmpty(Model.SearchText))
+{
+    <p>No product category matched for '@Model.SearchText'.</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>Product Category</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (string category in Model.Categories)
+        {
+            <tr>
+                <td>@category</td>
+                <td class="action-buttons-wrapper">
+                    <div><a href="/update-product-category?prodCategoryId=@category" class="action-button">Update</a></div>
+                    <div><a href="/delete-product-category?prodCategoryId=@category" class="action-button dangerous">Delete</a></div>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@section Styling{
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+            .action-button:hover {
+                color: white;
+                background-color: blue;
+            }
+
+            .action-button.dangerous {
+                background-color: red;
+            }
+
+        .add-new-product {
+            background-color: forestgreen;
+        }
+
+        .action-button.dangerous:hover {
+            background-color: darkred;
+        }
+
+        .action-buttons-wrapper {
+            display: flex;
+            padding: 5px 10px;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .search-product-wrapper {
+            padding-left: 4rem;
+        }
+
+        .search-input {
+            width: 25rem;
+            line-height: 1.5rem;
+            border-radius: 8px;
+            padding-left: 1rem;
+            padding: 8px;
+        }
+
+    </style>
+}

@@ -10,15 +10,15 @@ namespace Services.Login
 {
     public class LoginService: ILoginService
     {
-        private IUserDataAccess _repository;
-        public LoginService(IUserDataAccess repository) 
+        private IDataAccess<User> _repository;
+        public LoginService(IDataAccess<User> repository) 
         {
             _repository = repository;
         }
 
         public ServiceResult<User> Login(string email, string password)
         {
-            var matchedUser = _repository.GetUser(email);
+            var matchedUser = _repository.GetFirstMatch(user => user.Email == email);
             if (matchedUser is null)
             {
                 return new ServiceResult<User>("No user found. Make sure you input the correct information.");

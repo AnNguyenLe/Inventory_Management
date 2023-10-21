@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace InventoryManagement.Pages.Logout
@@ -9,6 +8,7 @@ namespace InventoryManagement.Pages.Logout
         {
             HttpContext.Session.SetString("userEmail", string.Empty);
             HttpContext.Session.SetString("userName", string.Empty);
+
             Response.Redirect("/login");
         }
     }

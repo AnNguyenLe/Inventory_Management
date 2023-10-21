@@ -1,0 +1,29 @@
+﻿@page
+@model InventoryManagement.Pages.Register.Successful_RegisterModel
+@{
+}
+
+<div class="body-frame">
+    <h4 style="color: green">Register Successfully!</h4>    
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 82vh;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        setTimeout(() => {
+            window.location.href = "/"
+        }, 1500)
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@page
+@model InventoryManagement.Pages.Delete_Product.IndexModel
+@{
+}
+
+
+<div class="body-frame">
+    
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color:red">No product matched for Product ID '@Model.ProductId'.</p>
+    }
+    else if(Model.Product is not null)
+    {
+        <h2 class="action-name-danger">Do you want to delete this product?</h2>
+
+        <table>
+            <tr>
+                <th>ProductID</th>
+                <th>Product Name</th>
+                <th>Product Category</th>
+                <th>Manufacturer</th>
+                <th>
+                    <p>Manufacturing Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>
+                    <p>Expiration Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit of Measurement</th>
+            </tr>
+            <tr>
+                <td>@Model.Product.Id</td>
+                <td>@Model.Product.Name</td>
+                <td>@Model.Product.Category</td>
+                <td>@Model.Product.Manufacturer</td>
+                <td>@Model.Product.YearOfManufacture</td>
+                <td>@Model.Product.ExpDate.ToShortDateString()</td>
+                <td>@Model.Product.Price</td>
+                <td>@Model.Product.Quantity</td>
+                <td>@Model.Product.UnitOfMeasurement</td>
+            </tr>
+        </table>
+
+        <form method="POST" class="action-form">
+            <input type="submit" class="action-button dangerous" value="Confirm and Delete" />
+            <a href="/product-list" class="action-button">
+                Cancel
+            </a>
+        </form>
+    }
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 82vh;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-name-danger {
+            font-weight: bold;
+            color: red;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-form {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            padding: 8px;
+            width: 15rem;
+        }
+
+        a.action-button {
+            text-decoration: none;
+            color: white
+        }
+
+        .action-button.dangerous {
+            background-color: red;
+        }
+    </style>
+}

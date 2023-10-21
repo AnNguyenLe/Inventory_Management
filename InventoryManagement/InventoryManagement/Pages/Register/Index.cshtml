@@ -4,43 +4,37 @@
 }
 
 <div class="bodyFrame">
-    @if (Model.IsRegisterSuccessul)
-    {
-        <h4 style="color: green">@Model.Info</h4>
-    } else
-    {
-        <div class="page-header">
-            <h2>REGISTER</h2>
-            <p>New here? Register an account to use this product.</p>
+    <div class="page-header">
+        <h2>REGISTER</h2>
+        <p>New here? Register an account to use this product.</p>
+    </div>
+    <form method="post">
+        <div class="inputField">
+            <label for="userEmail">Email</label>
+            <input type="email" name="userEmail" />
         </div>
-        <form method="post">
-            <div class="inputField">
-                <label for="userEmail">Email</label>
-                <input type="email" name="userEmail" />
-            </div>
 
-            <div class="inputField">
-                <label for="userName">User Name</label>
-                <input type="text" name="userName" />
-            </div>
-
-            <div class="inputField">
-                <label for="userPassword">Create a Password</label>
-                <input type="password" name="userPassword" />
-            </div>
-
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-            {
-                <p class="info-text-error">@Model.ErrorMessage</p>
-            }
-
-            <input class="submit-button" type="submit" value="Register">
-        </form>
-
-        <div>
-            Already have an account? <span class="external-link-wrapper"><a href="/login">Sign in</a></span>
+        <div class="inputField">
+            <label for="userName">User Name</label>
+            <input type="text" name="userName" />
         </div>
-    }
+
+        <div class="inputField">
+            <label for="userPassword">Create a Password</label>
+            <input type="password" name="userPassword" />
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="info-text-error">@Model.ErrorMessage</p>
+        }
+
+        <input class="submit-button" type="submit" value="Register">
+    </form>
+
+    <div>
+        Already have an account? <span class="external-link-wrapper"><a href="/login">Sign in</a></span>
+    </div>
 </div>
 
 @section Styling{

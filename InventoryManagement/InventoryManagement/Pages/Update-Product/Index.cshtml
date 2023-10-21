@@ -1,0 +1,151 @@
+﻿@page
+@model InventoryManagement.Pages.Update_Product.IndexModel
+@{
+}
+
+<div class="body-frame">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage) && string.IsNullOrEmpty(Model.Id))
+    {
+        <p style="color:red">No product matched for Product ID '@Model.ProductId'.</p>
+    }
+    else if(Model.Product is not null)
+    {
+        <div class="page-header">
+            <h2 class="action-name">UPDATE PRODUCT</h2>
+        </div>
+        <form class="input-form" method="post">
+            <div class="inputField">
+                <label for="productId">Product ID</label>
+                <input type="text" name="id" value="@Model.Product.Id" />
+            </div>
+
+            <div class="inputField">
+                <label for="productName">Product Name</label>
+                <input type="text" name="productName" value="@Model.Product.Name" />
+            </div>
+
+            <div class="inputField">
+                <label for="productCategory">Product Category</label>
+                <input type="text" name="productCategory" value="@Model.Product.Category" />
+            </div>
+
+            <div class="inputField">
+                <label for="manufacturer">Manufacturer</label>
+                <input type="text" name="manufacturer" value="@Model.Product.Manufacturer" />
+            </div>
+
+            <div class="inputField">
+                <label for="yearOfManufacture">Year of Manufacture</label>
+                <input type="text" name="yearOfManufacture" value="@Model.Product.YearOfManufacture" />
+            </div>
+
+            <div class="inputField">
+                <label for="expirationDate">Expiration Date</label>
+                <input type="text" name="expirationDate" placeholder="format: mm-dd-yyyy" value="@Model.Product.ExpDate.ToShortDateString()" />
+            </div>
+
+            <div class="inputField">
+                <label for="price">Price</label>
+                <input type="number" name="price" value="@Model.Product.Price" />
+            </div>
+
+            <div class="inputField">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" value="@Model.Product.Quantity" />
+            </div>
+        
+            <div class="inputField">
+                <label for="unitOfMeasurement">Unit of Measurement</label>
+                <input type="text" name="unitOfMeasurement" value="@Model.Product.UnitOfMeasurement" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <p class="info-text-error">@Model.ErrorMessage</p>
+            }
+
+            <input class="submit-button" type="submit" value="Confirm and Update Product">
+        </form>
+    }
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 82vh;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-name{
+            font-weight: bold;
+            color:dodgerblue;
+        }
+
+        .info-text-error {
+            background-color: red;
+            color: white;
+        }
+
+        .info-text-approved {
+            background-color: forestgreen;
+            color: white;
+        }
+
+        .input-form {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 80%;
+        }
+
+        .inputField {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .inputField > input {
+                width: 60%;
+                padding-left: 1rem;
+            }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            border-radius: 8px;
+        }
+
+            input:focus {
+                background-color: azure
+            }
+
+        .submit-button {
+            width: 100%;
+            color: white;
+            background-color: deepskyblue;
+            font-weight: bold;
+            font-size: medium;
+            height: 40px;
+            margin-top: 30px;
+        }
+
+            .submit-button:hover {
+                background-color: blue;
+            }
+    </style>
+}

@@ -17,17 +17,14 @@ namespace InventoryManagement.Pages.Register
         [BindProperty]
         public string UserPassword { get; set; }
         public string ErrorMessage { get; private set; }
-        public string Info {  get; private set; }
-        public bool IsRegisterSuccessul {  get; private set; }
 
-        public IndexModel(string userEmail = "", string userName = "", string userPassword = "", string errorMessage = "", string info = "") : base()
+        public IndexModel(string userEmail = "", string userName = "", string userPassword = "", string errorMessage = "") : base()
         {
             _service = ServiceInstances.RegisterService;
             UserEmail = userEmail;
             UserName = userName;
             UserPassword = userPassword;
             ErrorMessage = errorMessage;
-            Info = info;
         }
         public void OnPost()
         {
@@ -36,15 +33,12 @@ namespace InventoryManagement.Pages.Register
                 User newUser = new(UserEmail, UserName, UserPassword);
                 var result = _service.Register(newUser);
 
-                if(result.isSuccessful)
+                if(result.IsSuccessful)
                 {
-                    Info = "Register successfully!";
-                    IsRegisterSuccessul = true;
-
                     HttpContext.Session.SetString("userEmail", UserEmail);
                     HttpContext.Session.SetString("userName", UserName);
 
-                    Response.Redirect("/");
+                    Response.Redirect("/register/successful-register");
                 } else
                 {
                     ErrorMessage = result.ErrorMessage;
