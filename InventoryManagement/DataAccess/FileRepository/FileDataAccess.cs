@@ -1,20 +1,19 @@
 ﻿using DataAccess.FileRepository.Parsers;
 using DataAccess.Interfaces;
-using Entities;
 using System.Text.Json;
 
 namespace DataAccess.FileRepository
 {
     public class FileDataAccess<T>: IDataAccess<T>
     {
-        public string FilePath { get; init; }
+        private readonly string _filePath;
         public FileDataAccess(string filePath)
         {
-            FilePath = filePath;
+            _filePath = filePath;
         }
         public List<T> GetAll()
         {
-            var content = GetFileContent(FilePath);
+            var content = GetFileContent(_filePath);
             try
             {
                 var items = new JsonParser().Parse<List<T>>(content);
@@ -26,13 +25,13 @@ namespace DataAccess.FileRepository
             }
             catch (JsonException ex)
             {
-                throw new JsonException($"{ex.Message} At {FilePath}", ex);
+                throw new JsonException($"{ex.Message} At {_filePath}", ex);
             }
         }
 
         public void SaveAll(List<T> users)
         {
-            StreamWriter writer = new(FilePath);
+            StreamWriter writer = new(_filePath);
 
             var content = JsonSerializer.Serialize(users);
 

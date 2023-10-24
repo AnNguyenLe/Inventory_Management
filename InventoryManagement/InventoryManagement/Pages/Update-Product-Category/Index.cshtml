@@ -1,0 +1,171 @@
+﻿@page
+@model InventoryManagement.Pages.Update_Product_Category.IndexModel
+@{
+}
+
+
+<div class="body-frame">
+    @if (Model.MatchedProducts.Count == 0)
+    {
+        <p>No product matched for Product Category '@Model.ProductCategory'.</p>
+    }
+    else
+    {
+        <form class="input-form" method="post">
+            <div class="inputField new">
+                <label for="newProductCategory">New Product Category</label>
+                <input type="text" name="newProductCategory" placeholder="new product category here..." value="@Model.NewProductCategory"/>
+            </div>
+
+            <div class="action-buttons-wrapper">
+                <input type="submit" class="action-button" value="Confirm and Update" />
+                <a href="/product-category" class="action-button">
+                    Cancel
+                </a>
+            </div>
+            
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <p class="info-text-error">@Model.ErrorMessage</p>
+        }
+
+        <h2>Do you want to UPDATE these product under category '@Model.ProductCategory'?</h2>
+
+        <table>
+            <tr>
+                <th>ProductID</th>
+                <th>Product Name</th>
+                <th>Product Category</th>
+                <th>Manufacturer</th>
+                <th>
+                    <p>Manufacturing Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>
+                    <p>Expiration Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit of Measurement</th>
+            </tr>
+            @foreach (var p in Model.MatchedProducts)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>@p.Category</td>
+                    <td>@p.Manufacturer</td>
+                    <td>@p.YearOfManufacture</td>
+                    <td>@p.ExpDate.ToShortDateString()</td>
+                    <td>@p.Price</td>
+                    <td>@p.Quantity</td>
+                    <td>@p.UnitOfMeasurement</td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-form {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 35%;
+        }
+
+        .inputField.new {
+            font-size: 1.5rem;
+            background-color: forestgreen;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding-left: 1rem;
+            display: flex;
+            justify-content: space-between;
+            line-height: 1.5rem;
+            width: 100%;
+        }
+
+            .inputField.new > label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                line-height: 4rem;
+            }
+
+            .inputField.new > input {
+                width: 65%;
+                padding-left: 1rem;
+                line-height: 1.5rem;
+                font-weight: bold;
+                border-bottom-right-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+
+        .info-text-error {
+            color: red;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            padding: 8px;
+        }
+
+        .action-buttons-wrapper {
+            width: 50%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    </style>
+}

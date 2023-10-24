@@ -55,7 +55,6 @@ namespace InventoryManagement.Pages.Add_New_Product
             var result = _service.AddProduct(product);
             if(result.IsSuccessful)
             {
-
                 Response.Redirect("/success?actiontype=Adding new product&redirectto=/product-list");
             }
             ErrorMessage = result.ErrorMessage;

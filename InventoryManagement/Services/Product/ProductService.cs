@@ -7,7 +7,7 @@ namespace Services.Product
 {
     public class ProductService: IProductService
     {
-        private IDataAccess<ProductItem> _repository;
+        private readonly IDataAccess<ProductItem> _repository;
 
         public static bool IsAnyPropertyNullOrEmpty<T>(T item)
         {
@@ -63,7 +63,7 @@ namespace Services.Product
             return new ServiceResult<ProductItem>(product);
         }
 
-        public ServiceResult<List<ProductItem>> GetMatchedProducts(string searchText)
+        public ServiceResult<List<ProductItem>> GetMatchedSearchProducts(string searchText)
         {
             Predicate<ProductItem> predicate = DoesProductContains(searchText);
             return new ServiceResult<List<ProductItem>>(_repository.GetMatchedItems(predicate));
@@ -166,6 +166,75 @@ namespace Services.Product
             var text = searchText.TransformToContinuousLowercase();
             var matchedCategories = catergories.FindAll(c => c.TransformToContinuousLowercase().Contains(text));
             return new ServiceResult<List<string>>(matchedCategories);
+        }
+
+        public ServiceResult<string> UpdateProductCategory(string oldCategory, string newCategoryStr)
+        {
+            if(string.IsNullOrEmpty(newCategoryStr))
+            {
+                return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_UPDATING_FAIL_CATEGORY_NULL_OR_EMPTY);
+            }
+            var newCategory = newCategoryStr.Trim();
+            if(oldCategory == newCategory)
+            {
+                return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_UPDATING_FAIL_NO_DIFFERENCE_BETWEEN_CURRENT_AND_UPDATE_CATEGORY_NAME);
+            }
+            var products = _repository.GetAll();
+            var matchedProducts = products.FindAll(p => p.Category == oldCategory);
+
+            if (matchedProducts.Count == 0)
+            {
+                return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_UPDATING_FAIL_NO_PRODUCT);
+            }
+
+            foreach (var p in matchedProducts)
+            {
+                p.Category = newCategory;
+            }
+            _repository.SaveAll(products);
+            return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_UPDATING_SUCCESS, true);
+        }
+
+        public ServiceResult<List<ProductItem>> GetMatchedProducts(Predicate<ProductItem> predicate)
+        {
+            var matchedProducts = _repository.GetMatchedItems(predicate);
+            if(matchedProducts.Count == 0)
+            {
+                return new ServiceResult<List<ProductItem>>(ProcessStatus.PRODUCT_CATEGORY_DELETING_FAIL_NO_PRODUCT);
+            }
+            return new ServiceResult<List<ProductItem>>(matchedProducts);
+        }
+
+        public ServiceResult<string> DeleteProductCategory(string productCategory)
+        {
+            var products = _repository.GetAll();
+
+            if (products.Find(product => product.Category == productCategory) is null)
+            {
+                return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_DELETING_FAIL_NO_PRODUCT);
+            }
+
+            var updatedProducts = products.FindAll(product => product.Category != productCategory);
+            _repository.SaveAll(updatedProducts);
+
+            return new ServiceResult<string>(ProcessStatus.PRODUCT_DELETING_SUCCESS, true);
+        }
+
+        public ServiceResult<ProductItem> AddProductCategory(ProductItem product)
+        {
+            var newCategoryStr = product.Category;
+            if (string.IsNullOrEmpty(newCategoryStr))
+            {
+                return new ServiceResult<ProductItem>(ProcessStatus.PRODUCT_CATEGORY_ADDING_FAIL_PRODUCT_CATEGORY_CANNOT_BE_NULL_OR_EMPTY);
+            }
+            var newCategory = newCategoryStr.Trim();
+            var products = _repository.GetAll();
+            var isDuplicated = ExtractCategories(products).Contains(newCategory);
+            if(isDuplicated)
+            {
+                return new ServiceResult<ProductItem>(ProcessStatus.PRODUCT_CATEGORY_ADDING_FAIL_DUPLICATED_PRODUCT_CATEGORY);
+            }
+            return AddProduct(product);
         }
 
         private Predicate<ProductItem> DoesProductContains(string s) {

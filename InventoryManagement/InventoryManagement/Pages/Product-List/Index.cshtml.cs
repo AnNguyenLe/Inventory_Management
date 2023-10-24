@@ -40,7 +40,7 @@ namespace InventoryManagement.Pages.ProductList
                 Products = products is null ? new List<ProductItem>() : products;
                 return;
             }
-            var result = _service.GetMatchedProducts(SearchText);
+            var result = _service.GetMatchedSearchProducts(SearchText);
             Products = result.Data is null ? new List<ProductItem>() : result.Data;
         }
     }

@@ -1,0 +1,125 @@
+﻿@page
+@model InventoryManagement.Pages.Delete_Product_Category.IndexModel
+@{
+}
+
+<div class="body-frame">
+    @if (Model.MatchedProducts.Count == 0)
+    {
+        <p>No product matched for Product Category '@Model.ProductCategory'.</p>
+    }
+    else
+    {
+        <h2>Do you want to DELETE these product under category '@Model.ProductCategory'?</h2>
+
+        <table>
+            <tr>
+                <th>ProductID</th>
+                <th>Product Name</th>
+                <th>Product Category</th>
+                <th>Manufacturer</th>
+                <th>
+                    <p>Manufacturing Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>
+                    <p>Expiration Date</p>
+                    <p>(mm/dd/yyyy)</p>
+                </th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit of Measurement</th>
+            </tr>
+            @foreach (var p in Model.MatchedProducts)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>@p.Category</td>
+                    <td>@p.Manufacturer</td>
+                    <td>@p.YearOfManufacture</td>
+                    <td>@p.ExpDate.ToShortDateString()</td>
+                    <td>@p.Price</td>
+                    <td>@p.Quantity</td>
+                    <td>@p.UnitOfMeasurement</td>
+                </tr>
+            }
+        </table>
+
+        <form class="action-form" method="POST">
+            <input type="submit" class="action-button dangerous" value="Confirm and Delete" />
+            <a href="/product-category" class="action-button">
+                Cancel
+            </a>
+        </form>
+    }
+</div>
+
+@section Styling{
+    <style>
+        .body-frame {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 82vh;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-form {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            padding: 8px;
+            width: 15rem;
+        }
+
+        a.action-button {
+            text-decoration: none;
+            color: white
+        }
+
+        .action-button.dangerous {
+            background-color: red;
+        }
+    </style>
+}
+

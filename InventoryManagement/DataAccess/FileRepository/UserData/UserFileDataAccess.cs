@@ -7,6 +7,6 @@ namespace DataAccess.FileRepository.UserData;
 
 public class UserFileDataAccess : FileDataAccess<User>
 {
-    private new const string FilePath = "C:\\Users\\LENOVO\\Downloads\\users.json";
+    private const string FilePath = "C:\\Users\\LENOVO\\Downloads\\users.json";
     public UserFileDataAccess(): base(FilePath) { }
 }

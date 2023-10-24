@@ -1,0 +1,151 @@
+﻿@page
+@model InventoryManagement.Pages.Sales_Receipt.IndexModel
+@{
+}
+
+@if (string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    @if (string.IsNullOrEmpty(Model.SearchText))
+    {
+        <h2 style="padding: 1rem 0">List of Sales Receipts</h2>
+    }
+    else
+    {
+        <h2 style="padding: 1rem 0">Matched Sales Receipts for keyword '@Model.SearchText'</h2>
+    }
+
+    <div style="padding-bottom: 1.5rem; display: flex; align-items: center">
+        @if (string.IsNullOrEmpty(Model.SearchText))
+        {
+            <a href="/create-sales-receipt" class="action-button add-new-product">Add new sales receipt</a>
+        }
+        else
+        {
+            <a href="/sales-receipt" class="action-button add-new-product">Back to all invoices</a>
+        }
+        <div class="search-product-wrapper">
+            <form method="POST">
+                <input class="search-input" type="text" name="searchText" value="@Model.SearchText" placeholder="Search sales receipt by id..." />
+                <input class="action-button" type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+
+    @if (Model.SalesReceipts == null || Model.SalesReceipts.Count == 0 && string.IsNullOrEmpty(Model.SearchText))
+    {
+        <p class="not-found">No sales receipt had been created...</p>
+    }
+    else if (Model.SalesReceipts == null || Model.SalesReceipts.Count == 0 && !string.IsNullOrEmpty(Model.SearchText))
+    {
+        <p class="not-found">No sales receipt matched for '@Model.SearchText'.</p>
+    }
+    else
+    {
+        <table>
+            <tr>
+                <th>Sales Receipt ID</th>
+                <th>Created on</th>
+                <th>Last updated on</th>
+                <th>Detail</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var p in Model.SalesReceipts)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.CreatedOn</td>
+                    <td>@p.LastUpdatedOn</td>
+                    <td>
+                        <div><a href="/sales-receipt/sales-receipt-detail?salesReceiptId=@p.Id" class="action-button">View Detail</a></div>
+                    </td>
+                    <td class="action-buttons-wrapper">
+                        <div><a href="/update-sales-receipt?salesReceiptId=@p.Id" class="action-button">Update</a></div>
+                        <div><a href="/delete-sales-receipt?salesReceiptId=@p.Id" class="action-button dangerous">Delete</a></div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+}
+else
+{
+    <h2 style="color: red">@Model.ErrorMessage</h2>
+}
+
+@section Styling{
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+            .action-button:hover {
+                color: white;
+                background-color: blue;
+            }
+
+            .action-button.dangerous {
+                background-color: red;
+            }
+
+        .add-new-product {
+            background-color: forestgreen;
+        }
+
+        .not-found {
+            color: dodgerblue;
+            font-weight: bold;
+        }
+
+        .action-button.dangerous:hover {
+            background-color: darkred;
+        }
+
+        .action-buttons-wrapper {
+            display: flex;
+            padding: 5px 10px;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .search-product-wrapper {
+            padding-left: 4rem;
+        }
+
+        .search-input {
+            width: 25rem;
+            line-height: 1.5rem;
+            border-radius: 8px;
+            padding-left: 1rem;
+            padding: 8px;
+        }
+
+    </style>
+}

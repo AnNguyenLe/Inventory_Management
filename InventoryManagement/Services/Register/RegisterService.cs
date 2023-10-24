@@ -7,7 +7,7 @@ namespace Services.Register;
 
 public class RegisterService: IRegisterService
 {
-    private IDataAccess<User> _repository;
+    private readonly IDataAccess<User> _repository;
     public RegisterService(IDataAccess<User> repository) 
     {
         _repository = repository;
