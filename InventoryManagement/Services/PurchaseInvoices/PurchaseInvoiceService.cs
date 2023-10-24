@@ -29,4 +29,27 @@ public class PurchaseInvoiceService: TransactionalDocumentService<PurchaseInvoic
         }
         _productRepository.SaveAll(products);
     }
+
+    public override void ValidateDocumentUpdating(List<ProductItem> currentProducts, List<decimal> quantities, List<OrderItem> orderItems)
+    {
+        for( var i = 0; i < quantities.Count; i++)
+        {
+            var quantity = quantities[i];
+            var currentProductQuantity = currentProducts[i].Quantity;
+            var currentOrderItemQuantity = orderItems[i].Quantity;
+            if(quantity == currentOrderItemQuantity || quantity > currentOrderItemQuantity)
+            {
+                continue;
+            }
+            if (quantity - currentProductQuantity < 0)
+            {
+                throw new InvalidOperationException($"Min value of product {orderItems[i].Name} is {currentOrderItemQuantity - currentProductQuantity}.");
+            }
+        }
+    }
+
+    public override decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity)
+    {
+        return currentProductQuantity += updatedOrderItemQuantity - currentOrderItemQuantity;
+    }
 }

@@ -1,0 +1,130 @@
+﻿@page
+@model InventoryManagement.Pages.Update_Sales_Receipt.IndexModel
+@{
+}
+<div>
+    <h2 style="padding: 1rem 0">Update Sales Receipt @Model.SalesReceiptId</h2>
+
+    <form method="POST">
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Manufacturer</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit of Measurement</th>
+            </tr>
+            @for (var i = 0; i < Model.OrderItems.Count; i++)
+            {
+                <tr>
+                    <td>@Model.OrderItems[i].Name</td>
+                    <td>@Model.OrderItems[i].Manufacturer</td>
+                    <td>@Model.OrderItems[i].Price</td>
+                    <td>
+                        @if (Model.OrderItems[i].Quantity >= 0)
+                        {
+                            <input type="number" name="quantities[@i]" value="@Model.OrderItems[i].Quantity" />
+                        }
+                        else
+                        {
+                            <input type="number" style="background-color: red" name="quantities[@i]" value="@Model.OrderItems[i].Quantity" />
+                        }
+                    </td>
+                    <td>@Model.OrderItems[i].UnitOfMeasurement</td>
+                </tr>
+            }
+        </table>
+
+        <p class="info-text">@Model.ErrorMessage</p>
+
+        <div class="action-button-wrapper">
+            <input type="submit" value="Confirm and Update" class="action-button dangerous" />
+            <a href="/sales-receipt" class="action-button">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Styling{
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .create-sale-receipt {
+            background-color: forestgreen;
+        }
+
+        .inputField.new {
+            font-size: 1.5rem;
+            background-color: forestgreen;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding-left: 1rem;
+            width: 60%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .inputField.new > input {
+                width: 60%;
+                padding-left: 1rem;
+                line-height: 1.5rem;
+                font-weight: bold;
+                border-radius: 8px;
+            }
+
+        .info-text {
+            margin: 2rem 0;
+            color: red;
+            font-weight: bold;
+        }
+
+        .action-button-wrapper {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            padding: 8px;
+            width: 15rem;
+        }
+
+        a.action-button {
+            text-decoration: none;
+            color: white
+        }
+
+        .action-button.dangerous {
+            background-color: red;
+        }
+
+    </style>
+}

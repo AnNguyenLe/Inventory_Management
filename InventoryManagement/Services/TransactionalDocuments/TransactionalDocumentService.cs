@@ -1,7 +1,9 @@
 ﻿using DataAccess.Interfaces;
 using Entities;
 using Services.Constants;
+using System.Reflection.Metadata;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Services.TransactionalDocuments;
 
@@ -52,7 +54,6 @@ public abstract class TransactionalDocumentService<T>: ITransactionalDocumentSer
 
         return products.Select(p => new OrderItem(p.Id, p.Name, p.Manufacturer, p.Price, p.UnitOfMeasurement)).ToList();
     }
-
 
     public abstract void HandleInventoryImportExportOperation(List<OrderItem> orderItems);
     public abstract T AssembleDocument(string documentId, List<OrderItem> orderItems);
@@ -116,6 +117,90 @@ public abstract class TransactionalDocumentService<T>: ITransactionalDocumentSer
         }
         return orderItemList;
     }
+    public ServiceResult<T> GetFirstMatchedDocument(Predicate<T> predicate)
+    {
+        try
+        {
+            var document = _documentRepository.GetFirstMatch(predicate);
+            if(document is null)
+            {
+                return new ServiceResult<T>("No document matched.");
+            }
+            return new ServiceResult<T>(document);
+        }
+        catch (JsonException ex)
+        {
+            return new ServiceResult<T>(ex.Message);
+        }
+    }
+    public abstract void ValidateDocumentUpdating(List<ProductItem> currentProducts, List<decimal> quantities, List<OrderItem> orderItems);
+    
+    public ServiceResult<string> UpdateDocument(string documentId, List<decimal> quantities)
+    {
+        var isAnyNegativeNumber = quantities.Any(num => num < 0);
+        if (isAnyNegativeNumber)
+        {
+            return new ServiceResult<string>("Negative quantity is not allowed.");
+        }
+
+        var document = _documentRepository.GetFirstMatch(doc => doc.Id == documentId);
+        if(document is null)
+        {
+            return new ServiceResult<string>(ProcessStatus.DOCUMENT_UPDATING_FAIL_DOCUMENT_NOT_FOUND);
+        }
+
+        try
+        {
+            var relatedProducts = GetRelatedProducts(document.Goods);
+            ValidateDocumentUpdating(relatedProducts, quantities, document.Goods);
+            UpdateDocumentAndInventory(documentId, quantities);
+            return new ServiceResult<string>(ProcessStatus.DOCUMENT_UPDATING_SUCCESS, true);
+        }
+        catch(InvalidOperationException ex)
+        {
+            return new ServiceResult<string>(ex.Message);
+        }
+    }
+
+    private List<ProductItem> GetRelatedProducts(List<OrderItem> goods)
+    {
+        List<ProductItem> relatedProducts = new();
+        var products = _productRepository.GetAll();
+        foreach (var g in goods)
+        {
+            var relatedProduct = products.Find(p => p.Id == g.Id);
+            if (relatedProduct is null)
+            {
+                throw new InvalidOperationException($"Cannot operate update process as product {g.Name} with ID {g.Id} cannot be found in the inventory.");
+            }
+            relatedProducts.Add(relatedProduct);
+        }
+        return relatedProducts;
+    }
+    public abstract decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity);
+    private void UpdateDocumentAndInventory(string documentId, List<decimal> quantities)
+    {
+        var documents = _documentRepository.GetAll();
+        var documentIndex = documents.FindIndex(doc => doc.Id == documentId);
+        if (documentIndex == -1)
+        {
+            throw new InvalidOperationException(ProcessStatus.DOCUMENT_UPDATING_FAIL_DOCUMENT_NOT_FOUND);
+        }
+
+        var products = _productRepository.GetAll();
+        var documentOrderItems = documents[documentIndex].Goods;
+        for (var i = 0; i < documentOrderItems.Count; i++)
+        {
+            var productIndex = products.FindIndex(p => p.Id == documentOrderItems[i].Id);
+            //products[productIndex].Quantity +=  quantities[i] - documentOrderItems[i].Quantity; // Purchase Invoice
+            //products[productIndex].Quantity -= quantities[i] - documentOrderItems[i].Quantity; // Sales Receipt
+            products[productIndex].Quantity = UpdateProductQuantity(products[productIndex].Quantity, quantities[i], documentOrderItems[i].Quantity);
+            documentOrderItems[i].Quantity = quantities[i];
+        }
+        _productRepository.SaveAll(products);
+        _documentRepository.SaveAll(documents);
+    }
+
     private List<T> GetAllTranactionalDocuments()
     {
         try

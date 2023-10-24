@@ -35,4 +35,27 @@ public class SalesReceiptService: TransactionalDocumentService<SalesReceipt>, IS
         }
         _productRepository.SaveAll(products);
     }
+
+    public override void ValidateDocumentUpdating(List<ProductItem> currentProducts, List<decimal> quantities, List<OrderItem> orderItems)
+    {
+        for( var i = 0; i < quantities.Count; i++)
+        {
+            var quantity = quantities[i];
+            var currentProductQuantity = currentProducts[i].Quantity;
+            var currentOrderItemQuantity = orderItems[i].Quantity;
+            if (quantity == currentOrderItemQuantity || quantity < currentOrderItemQuantity)
+            {
+                continue;
+            }
+            if ((quantity - currentOrderItemQuantity) - currentProductQuantity < 0)
+            {
+                throw new InvalidOperationException($"Max value of product {orderItems[i].Name} is {currentProductQuantity}.");
+            }
+        }
+    }
+
+    public override decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity)
+    {
+        return currentProductQuantity -= updatedOrderItemQuantity - currentOrderItemQuantity;
+    }
 }

@@ -64,4 +64,7 @@ public class ProcessStatus
     public static readonly string PURCHASE_INVOICE_UPDATING_EMPTY_LIST = "Cannot update purchase invoice due to purchase invoice list is empty.";
     public static readonly string PURCHASE_INVOICE_UPDATING_SUCCESSFUL_UPDATING_INVENTORY = "Successfully update inventory before updating purchase invoice";
     public static readonly string PURCHASE_INVOICE_UPDATING_SUCCESSFUL = "Successfully update purchase invoice";
+
+    public static readonly string DOCUMENT_UPDATING_FAIL_DOCUMENT_NOT_FOUND = "Document not found. Make sure the document ID is correct.";
+    public static readonly string DOCUMENT_UPDATING_SUCCESS = "Successfully update document.";
 }

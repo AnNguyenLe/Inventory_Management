@@ -56,11 +56,11 @@
                     <td>@p.CreatedOn</td>
                     <td>@p.LastUpdatedOn</td>
                     <td>
-                        <div><a href="/sales-receipt/sales-receipt-detail?salesReceiptId=@p.Id" class="action-button">View Detail</a></div>
+                        <a href="/sales-receipt/sales-receipt-detail?salesReceiptId=@p.Id" class="action-button">View Detail</a>
                     </td>
-                    <td class="action-buttons-wrapper">
-                        <div><a href="/update-sales-receipt?salesReceiptId=@p.Id" class="action-button">Update</a></div>
-                        <div><a href="/delete-sales-receipt?salesReceiptId=@p.Id" class="action-button dangerous">Delete</a></div>
+                    <td>
+                        <a href="/update-sales-receipt?salesReceiptId=@p.Id" class="action-button">Update</a>
+                        <a href="/delete-sales-receipt?salesReceiptId=@p.Id" class="action-button dangerous">Delete</a>
                     </td>
                 </tr>
             }

@@ -11,7 +11,7 @@ namespace InventoryManagement.Pages.Create_Sales_Receipt
     {
         private readonly ISalesReceiptService _service;
         private readonly IProductService _productService;
-        public List<ProductItem> OrderItems { get; set; }
+        public List<ProductItem> Products { get; set; }
         public string ErrorMessage { get; set; }
         [BindProperty]
         public string SalesReceiptId { get; set; }
@@ -20,7 +20,7 @@ namespace InventoryManagement.Pages.Create_Sales_Receipt
         {
             _service = ServiceInstances.SaleReceiptService;
             _productService = ServiceInstances.ProductService;
-            OrderItems = new List<ProductItem>();
+            Products = new List<ProductItem>();
             ErrorMessage = string.Empty;
             SalesReceiptId = string.Empty;
         }
@@ -31,7 +31,7 @@ namespace InventoryManagement.Pages.Create_Sales_Receipt
                 var result = _productService.GetProducts();
                 if(result.Data is not null)
                 {
-                    OrderItems = result.Data.FindAll(product => product.ExpDate > DateTime.UtcNow);
+                    Products = result.Data.FindAll(product => product.ExpDate > DateTime.UtcNow);
                 }
             }
             catch (Exception ex)

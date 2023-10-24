@@ -12,5 +12,9 @@ namespace Services.TransactionalDocuments
         List<OrderItem> CreateOrderItemList(List<OrderItem> orderItems, List<decimal> quantities);
         void HandleInventoryImportExportOperation(List<OrderItem> orderItems);
         T AssembleDocument(string documentId, List<OrderItem> orderItems);
+        ServiceResult<T> GetFirstMatchedDocument(Predicate<T> predicate);
+        ServiceResult<string> UpdateDocument(string documentId, List<decimal> quantities);
+        void ValidateDocumentUpdating(List<ProductItem> currentProducts, List<decimal> quantities, List<OrderItem> orderItems);
+        decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity);
     }
 }

@@ -16,8 +16,6 @@
     <Folder Include="Pages\Delete-Sales-Receipt\" />
     <Folder Include="Pages\Inventory\" />
     <Folder Include="Pages\Expired-Product\" />
-    <Folder Include="Pages\Update-Sales-Receipt\" />
-    <Folder Include="Pages\Update-Purchase-Invoice\" />
   </ItemGroup>
 
 </Project>

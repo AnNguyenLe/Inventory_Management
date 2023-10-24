@@ -94,7 +94,7 @@ namespace Services.Product
 
         public ServiceResult<ProductItem> UpdateProduct(string oldId, ProductItem updatedProduct)
         {
-            var validatingResult = ValidateProductFields(updatedProduct);
+            var validatingResult = ValidateProductFields(updatedProduct, oldId == updatedProduct.Id);
             if (validatingResult != ProcessStatus.APPROVED)
             {
                 return new ServiceResult<ProductItem>(validatingResult);
@@ -111,7 +111,7 @@ namespace Services.Product
             return new ServiceResult<ProductItem>(updatedProduct);
         }
 
-        private string ValidateProductFields(ProductItem product)
+        private string ValidateProductFields(ProductItem product, bool isUpdate = false)
         {
             if (string.IsNullOrEmpty(product.Id))
             {
@@ -120,9 +120,14 @@ namespace Services.Product
 
             var hasActiveId = _repository.GetFirstMatch(item => item.Id == product.Id) is not null;
 
-            if (hasActiveId)
+            if (hasActiveId && !isUpdate)
             {
                 return ProcessStatus.PRODUCT_ADDING_FAIL_DUPLICATED_ID;
+            }
+
+            if(hasActiveId && isUpdate)
+            {
+
             }
 
             if (IsAnyPropertyNullOrEmpty(product))
