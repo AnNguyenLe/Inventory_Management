@@ -35,7 +35,7 @@
             }
         </table>
 
-        <p class="info-text">@Model.ErrorMessage</p>
+        <p class="error-text">@Model.ErrorMessage</p>
 
         <div class="action-button-wrapper">
             <input type="submit" value="Confirm and Update" class="action-button dangerous" />
@@ -92,8 +92,9 @@
                 border-radius: 8px;
             }
 
-        .info-text {
-            margin: 2rem 0;
+        .error-text {
+            text-align: center;
+            font-size: 1.5rem;
             color: red;
             font-weight: bold;
         }

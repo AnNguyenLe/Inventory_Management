@@ -16,5 +16,6 @@ namespace Services.TransactionalDocuments
         ServiceResult<string> UpdateDocument(string documentId, List<decimal> quantities);
         void ValidateDocumentUpdating(List<ProductItem> currentProducts, List<decimal> quantities, List<OrderItem> orderItems);
         decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity);
+        ServiceResult<string> DeleteDocument(string documentId);
     }
 }

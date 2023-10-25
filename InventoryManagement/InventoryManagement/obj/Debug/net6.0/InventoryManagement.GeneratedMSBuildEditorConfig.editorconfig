@@ -40,6 +40,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlLVByb2R1Y3RcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Delete-Purchase-Invoice/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlLVB1cmNoYXNlLUludm9pY2VcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Delete-Sales-Receipt/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlLVNhbGVzLVJlY2VpcHRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +80,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdC1MaXN0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Purchase-Invoice/Detail/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVyY2hhc2UtSW52b2ljZVxEZXRhaWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Purchase-Invoice/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVyY2hhc2UtSW52b2ljZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -82,6 +94,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Register/Successful-Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJcU3VjY2Vzc2Z1bC1SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Sales-Receipt/Detail/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2FsZXMtUmVjZWlwdFxEZXRhaWxcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/LENOVO/OneDrive - VNU-HCMUS/University of Science - VNU/OOP/Inventory_Management/InventoryManagement/InventoryManagement/Pages/Sales-Receipt/Index.cshtml]

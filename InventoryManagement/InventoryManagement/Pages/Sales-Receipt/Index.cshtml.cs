@@ -28,7 +28,7 @@ namespace InventoryManagement.Pages.Sales_Receipt
             var result = _service.GetDocuments();
             if (result.IsSuccessful && result.Data is not null)
             {
-                SalesReceipts = result.Data;
+                SalesReceipts = result.Data.FindAll(doc => !doc.IsDeleted);
             }
             else
             {
@@ -44,7 +44,7 @@ namespace InventoryManagement.Pages.Sales_Receipt
             }
             else
             {
-                var result = _service.GetMatchedDocuments(SearchText, purchaseInvoice => purchaseInvoice.Id.Contains(SearchText));
+                var result = _service.GetMatchedDocuments(SearchText, salesReceipt => !salesReceipt.IsDeleted && salesReceipt.Id.Contains(SearchText));
                 SalesReceipts = result.Data!;
             }
         }

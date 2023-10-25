@@ -146,7 +146,7 @@ public abstract class TransactionalDocumentService<T>: ITransactionalDocumentSer
         var document = _documentRepository.GetFirstMatch(doc => doc.Id == documentId);
         if(document is null)
         {
-            return new ServiceResult<string>(ProcessStatus.DOCUMENT_UPDATING_FAIL_DOCUMENT_NOT_FOUND);
+            return new ServiceResult<string>(ProcessStatus.DOCUMENT_NOT_FOUND);
         }
 
         try
@@ -160,6 +160,42 @@ public abstract class TransactionalDocumentService<T>: ITransactionalDocumentSer
         {
             return new ServiceResult<string>(ex.Message);
         }
+    }
+
+    public ServiceResult<string> DeleteDocument(string id)
+    {
+        var documents = _documentRepository.GetAll();
+        var documentIndex = documents.FindIndex(doc => doc.Id == id);
+        if(documentIndex == -1)
+        {
+            return new ServiceResult<string>(ProcessStatus.DOCUMENT_NOT_FOUND);
+        }
+        documents[documentIndex].IsDeleted = true;
+        _documentRepository.SaveAll(documents);
+        return new ServiceResult<string>(ProcessStatus.DOCUMENT_DELETING_SUCCESS, true);
+    }
+
+    public abstract decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity);
+    private void UpdateDocumentAndInventory(string documentId, List<decimal> quantities)
+    {
+        var documents = _documentRepository.GetAll();
+        var documentIndex = documents.FindIndex(doc => doc.Id == documentId);
+        if (documentIndex == -1)
+        {
+            throw new InvalidOperationException(ProcessStatus.DOCUMENT_NOT_FOUND);
+        }
+
+        var products = _productRepository.GetAll();
+        var documentOrderItems = documents[documentIndex].Goods;
+        for (var i = 0; i < documentOrderItems.Count; i++)
+        {
+            var productIndex = products.FindIndex(p => p.Id == documentOrderItems[i].Id);
+            products[productIndex].Quantity = UpdateProductQuantity(products[productIndex].Quantity, quantities[i], documentOrderItems[i].Quantity);
+            documentOrderItems[i].Quantity = quantities[i];
+        }
+        _productRepository.SaveAll(products);
+        documents[documentIndex].LastUpdatedOn = DateTime.UtcNow;
+        _documentRepository.SaveAll(documents);
     }
 
     private List<ProductItem> GetRelatedProducts(List<OrderItem> goods)
@@ -176,29 +212,6 @@ public abstract class TransactionalDocumentService<T>: ITransactionalDocumentSer
             relatedProducts.Add(relatedProduct);
         }
         return relatedProducts;
-    }
-    public abstract decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity);
-    private void UpdateDocumentAndInventory(string documentId, List<decimal> quantities)
-    {
-        var documents = _documentRepository.GetAll();
-        var documentIndex = documents.FindIndex(doc => doc.Id == documentId);
-        if (documentIndex == -1)
-        {
-            throw new InvalidOperationException(ProcessStatus.DOCUMENT_UPDATING_FAIL_DOCUMENT_NOT_FOUND);
-        }
-
-        var products = _productRepository.GetAll();
-        var documentOrderItems = documents[documentIndex].Goods;
-        for (var i = 0; i < documentOrderItems.Count; i++)
-        {
-            var productIndex = products.FindIndex(p => p.Id == documentOrderItems[i].Id);
-            //products[productIndex].Quantity +=  quantities[i] - documentOrderItems[i].Quantity; // Purchase Invoice
-            //products[productIndex].Quantity -= quantities[i] - documentOrderItems[i].Quantity; // Sales Receipt
-            products[productIndex].Quantity = UpdateProductQuantity(products[productIndex].Quantity, quantities[i], documentOrderItems[i].Quantity);
-            documentOrderItems[i].Quantity = quantities[i];
-        }
-        _productRepository.SaveAll(products);
-        _documentRepository.SaveAll(documents);
     }
 
     private List<T> GetAllTranactionalDocuments()

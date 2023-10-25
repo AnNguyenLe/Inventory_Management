@@ -53,14 +53,14 @@ namespace DataAccess.FileRepository
 
         public void Delete (Predicate<T> predicate)
         {
-            var products = GetAll();
-            var item = products.Find(predicate);
+            var items = GetAll();
+            var item = items.Find(predicate);
             if (item is null)
             {
                 throw new InvalidOperationException("Cannot delete. Item not found");
             }
-            products.Remove(item);
-            SaveAll(products);
+            items.Remove(item);
+            SaveAll(items);
         }
 
         private static string GetFileContent(string filePath)

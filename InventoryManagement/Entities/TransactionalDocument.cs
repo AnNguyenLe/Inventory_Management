@@ -7,6 +7,7 @@ public class TransactionalDocument
     public List<OrderItem> Goods { get; set; }
     public DateTime LastUpdatedOn { get; set; }
     public decimal TotalPrice { get; private set; }
+    public bool IsDeleted { get; set; }
 
     public TransactionalDocument(string id, List<OrderItem> goods)
     {
@@ -14,6 +15,7 @@ public class TransactionalDocument
         CreatedOn = DateTime.UtcNow;
         Goods = goods;
         LastUpdatedOn = CreatedOn;
+        IsDeleted = false;
         TotalPrice = CalculateTotalPrice();
     }
 

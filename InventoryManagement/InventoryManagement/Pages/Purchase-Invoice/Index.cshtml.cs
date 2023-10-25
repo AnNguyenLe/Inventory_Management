@@ -28,7 +28,7 @@ namespace InventoryManagement.Pages.Purchase_Invoice
             var result = _service.GetDocuments();
             if(result.IsSuccessful && result.Data is not null)
             {
-                PurchaseInvoices = result.Data;
+                PurchaseInvoices = result.Data.FindAll(doc => !doc.IsDeleted);
             } else
             {
                 ErrorMessage = result.ErrorMessage;
@@ -43,7 +43,7 @@ namespace InventoryManagement.Pages.Purchase_Invoice
             }
             else
             {
-                var result = _service.GetMatchedDocuments(SearchText, purchaseInvoice => purchaseInvoice.Id.Contains(SearchText));
+                var result = _service.GetMatchedDocuments(SearchText, purchaseInvoice => !purchaseInvoice.IsDeleted && purchaseInvoice.Id.Contains(SearchText));
                 PurchaseInvoices = result.Data!;
             }
         }

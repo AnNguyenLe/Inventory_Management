@@ -222,7 +222,7 @@ namespace Services.Product
             var updatedProducts = products.FindAll(product => product.Category != productCategory);
             _repository.SaveAll(updatedProducts);
 
-            return new ServiceResult<string>(ProcessStatus.PRODUCT_DELETING_SUCCESS, true);
+            return new ServiceResult<string>(ProcessStatus.PRODUCT_CATEGORY_DELETING_SUCCESS, true);
         }
 
         public ServiceResult<ProductItem> AddProductCategory(ProductItem product)

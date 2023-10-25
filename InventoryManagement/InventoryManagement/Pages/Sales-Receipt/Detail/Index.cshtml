@@ -1,0 +1,96 @@
+﻿@page
+@model InventoryManagement.Pages.Sales_Receipt.Detail.IndexModel
+@{
+}
+
+@if (string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div>
+        <h2 style="padding: 1rem 0" class="">Sale Receipt Detail - ID: @Model.SalesReceiptId</h2>
+
+        <p>Created on (UTC): @Model.Document.CreatedOn</p>
+        <p>Last updated on (UTC): @Model.Document.LastUpdatedOn</p>
+
+        <div class="action-button-wrapper">
+            <a href="/sales-receipt" class="action-button">
+                Return to all sale receipts
+            </a>
+        </div>
+
+
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Manufacturer</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Unit of Measurement</th>
+            </tr>
+            @foreach (var g in Model.Document.Goods)
+            {
+                <tr>
+                    <td>@g.Name</td>
+                    <td>@g.Manufacturer</td>
+                    <td>@g.Price</td>
+                    <td>@g.Quantity</td>
+                    <td>@g.UnitOfMeasurement</td>
+                </tr>
+            }
+        </table>
+
+        <h3 style="text-align: right">Total Price: @Model.Document.CalculateTotalPrice()</h3>
+    </div>
+} else
+{
+    <div style="text-align: center">
+        <h3 style="color: red">No document matched ID: @Model.SalesReceiptId</h3>
+    </div>
+}
+
+
+@section Styling{
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-button-wrapper {
+            padding: 0 0 2rem 0;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: green;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            padding: 8px;
+            width: 20rem;
+        }
+
+        a.action-button {
+            text-decoration: none;
+            color: white
+        }
+
+    </style>
+}

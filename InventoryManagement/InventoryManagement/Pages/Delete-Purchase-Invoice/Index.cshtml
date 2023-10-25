@@ -1,10 +1,11 @@
 ﻿@page
-@model InventoryManagement.Pages.Update_Purchase_Invoice.IndexModel
+@model InventoryManagement.Pages.Delete_Purchase_Invoice.IndexModel
 @{
 }
 
-<div>
-    <h2 style="padding: 1rem 0">Update Purchase Invoice @Model.PurchaseInvoiceId</h2>
+@if (string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <h2 style="padding: 1rem 0">Are you sure about deleting Purchase Invoice @Model.PurchaseInvoiceId?</h2>
 
     <form method="POST">
         <table>
@@ -15,37 +16,35 @@
                 <th>Quantity</th>
                 <th>Unit of Measurement</th>
             </tr>
-            @for (var i = 0; i < Model.OrderItems.Count; i++)
+            @foreach (var g in Model.Document.Goods)
             {
                 <tr>
-                    <td>@Model.OrderItems[i].Name</td>
-                    <td>@Model.OrderItems[i].Manufacturer</td>
-                    <td>@Model.OrderItems[i].Price</td>
-                    <td>
-                        @if (Model.OrderItems[i].Quantity >= 0)
-                        {
-                            <input type="number" name="quantities[@i]" value="@Model.OrderItems[i].Quantity" />
-                        }
-                        else
-                        {
-                            <input type="number" style="background-color: red" name="quantities[@i]" value="@Model.OrderItems[i].Quantity" />
-                        }
-                    </td>
-                    <td>@Model.OrderItems[i].UnitOfMeasurement</td>
+                    <td>@g.Name</td>
+                    <td>@g.Manufacturer</td>
+                    <td>@g.Price</td>
+                    <td>@g.Quantity</td>
+                    <td>@g.UnitOfMeasurement</td>
                 </tr>
             }
         </table>
 
-        <p class="error-text">@Model.ErrorMessage</p>
-
         <div class="action-button-wrapper">
-            <input type="submit" value="Confirm and Update" class="action-button dangerous" />
+            <input type="submit" value="Confirm and Delete" class="action-button dangerous" />
             <a href="/purchase-invoice" class="action-button">
                 Cancel
             </a>
         </div>
     </form>
-</div>
+} else
+{
+    <div style="text-align: center; margin-top: 5rem">
+        <h3 style="color: red">@Model.ErrorMessage</h3>
+        <a href="/purchase-invoice" class="action-button">
+            Back to all purchase invoices
+        </a>
+    </div>
+}
+
 
 @section Styling{
     <style>
@@ -93,14 +92,14 @@
                 border-radius: 8px;
             }
 
-        .error-text {
-            text-align: center;
-            font-size: 1.5rem;
+        .info-text {
+            margin: 2rem 0;
             color: red;
             font-weight: bold;
         }
 
         .action-button-wrapper {
+            margin-top: 2rem;
             display: flex;
             justify-content: space-around;
             width: 100%;
