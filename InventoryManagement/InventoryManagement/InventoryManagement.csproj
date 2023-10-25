@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Inventory\" />
     <Folder Include="Pages\Expired-Product\" />
   </ItemGroup>
 

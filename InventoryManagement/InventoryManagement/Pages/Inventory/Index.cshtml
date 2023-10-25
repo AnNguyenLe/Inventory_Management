@@ -1,0 +1,176 @@
+﻿@page
+@model InventoryManagement.Pages.Inventory.IndexModel
+
+@using Services.Constants;
+@using Services.Extensions;
+@{
+}
+
+@if (string.IsNullOrEmpty(Model.SearchText))
+{
+    <h2 style="padding: 1rem 0">Inventory</h2>
+}
+else
+{
+    <h2 style="padding: 1rem 0">Matched Products for keyword '@Model.SearchText'</h2>
+}
+
+<div style="padding-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between">
+    @if (string.IsNullOrEmpty(Model.SearchText))
+    {
+        <a href="/add-new-product" class="action-button add-new-product">Add new product</a>
+    }
+    else
+    {
+        <a href="/inventory" class="action-button add-new-product">Back to inventory</a>
+    }
+    <div class="search-product-wrapper">
+        <form method="POST">
+            <input class="search-input" type="text" name="searchText" value="@Model.SearchText" placeholder="Search any column..." />
+            <input class="action-button" type="submit" name="Search" />
+        </form>
+    </div>
+</div>
+
+@if (Model.Products.Count == 0 && string.IsNullOrEmpty(Model.SearchText))
+{
+    <p>No Data...</p>
+}
+else if (Model.Products.Count == 0 && !string.IsNullOrEmpty(Model.SearchText))
+{
+    <p>No product matched for '@Model.SearchText'.</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>ProductID</th>
+            <th>Product Name</th>
+            <th>Product Category</th>
+            <th>Manufacturer</th>
+            <th>Year of Manufacture</th>
+            <th>
+                <p>Expiration Date</p>
+                <p>(mm/dd/yyyy)</p>
+            </th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Unit of Measurement</th>
+            <th>Expiration Status</th>
+        </tr>
+        @foreach (var p in Model.Products)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@p.Category</td>
+                <td>@p.Manufacturer</td>
+                <td>@p.YearOfManufacture</td>
+                <td>@p.ExpDate.ToShortDateString()</td>
+                <td>@p.Price</td>
+                <td>@p.Quantity</td>
+                <td>@p.UnitOfMeasurement</td>
+                <th>
+                    @{
+                        var expirationStatus = DateTimeExtensions.CheckProductExpirationStatus(p.ExpDate);
+                    }
+
+                    @if (expirationStatus == ExpirationStatus.EXPIRED)
+                    {
+                        <span class="expiration-color-code" style="color: red">Expired</span>
+                    }
+                    else if (expirationStatus == ExpirationStatus.NEAR_EXPIRATION_7)
+                    {
+                        <span class="expiration-color-code" style="color: orangered">Expires Soon</span>
+                    }
+                    else if (expirationStatus == ExpirationStatus.NEAR_EXPIRATION_14)
+                    {
+                        <span class="expiration-color-code" style="color: gold">Expires within 14 days</span>
+                    }
+                    else
+                    {
+                        <span class="expiration-color-code" style="color: green">Looks good!</span>
+                    }
+                </th>
+            </tr>
+        }
+
+    </table>
+}
+
+@section Styling{
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        tr:first-child, tr:first-child:hover {
+            background-color: deepskyblue;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #dddddd;
+        }
+
+        .action-button {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 1.5rem;
+            background-color: deepskyblue;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+            .action-button:hover {
+                color: white;
+                background-color: blue;
+            }
+
+            .action-button.dangerous {
+                background-color: red;
+            }
+
+        .add-new-product {
+            background-color: forestgreen;
+        }
+
+        .action-button.dangerous:hover {
+            background-color: darkred;
+        }
+
+        .action-buttons-wrapper {
+            display: flex;
+            padding: 5px 10px;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .search-product-wrapper {
+            padding-left: 4rem;
+        }
+
+        .search-input {
+            width: 25rem;
+            line-height: 1.5rem;
+            border-radius: 8px;
+            padding-left: 1rem;
+            padding: 8px;
+        }
+
+        .expiration-color-code {
+            height: 1.5rem;
+            color: white;
+        }
+
+    </style>
+}
