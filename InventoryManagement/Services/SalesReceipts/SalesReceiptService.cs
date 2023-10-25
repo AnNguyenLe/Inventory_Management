@@ -47,15 +47,15 @@ public class SalesReceiptService: TransactionalDocumentService<SalesReceipt>, IS
             {
                 continue;
             }
-            if ((quantity - currentOrderItemQuantity) - currentProductQuantity < 0)
+            if (currentProductQuantity - (quantity - currentOrderItemQuantity) < 0)
             {
-                throw new InvalidOperationException($"Max value of product {orderItems[i].Name} is {currentProductQuantity}.");
+                throw new InvalidOperationException($"Max value of product {orderItems[i].Name} is {currentProductQuantity + currentOrderItemQuantity}.");
             }
         }
     }
 
     public override decimal UpdateProductQuantity(decimal currentProductQuantity, decimal updatedOrderItemQuantity, decimal currentOrderItemQuantity)
     {
-        return currentProductQuantity -= updatedOrderItemQuantity - currentOrderItemQuantity;
+        return currentProductQuantity -= (updatedOrderItemQuantity - currentOrderItemQuantity);
     }
 }
