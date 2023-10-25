@@ -22,7 +22,7 @@ public class IndexModel : PageModel
     }
     public void OnGet()
     {
-        var result = _service.GetFirstMatchedDocument(salesReceipt => salesReceipt.Id == SalesReceiptId);
+        var result = _service.GetFirstMatchedDocument(salesReceipt => !salesReceipt.IsDeleted && salesReceipt.Id == SalesReceiptId);
         if(result.Data is not null)
         {
             Document = result.Data;

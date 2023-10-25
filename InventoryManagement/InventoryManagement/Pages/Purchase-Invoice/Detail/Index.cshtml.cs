@@ -22,7 +22,7 @@ namespace InventoryManagement.Pages.Purchase_Invoice.Detail
         }
         public void OnGet()
         {
-            var result = _service.GetFirstMatchedDocument(salesReceipt => salesReceipt.Id == PurchaseInvoiceId);
+            var result = _service.GetFirstMatchedDocument(purchaseInvoice => !purchaseInvoice.IsDeleted && purchaseInvoice.Id == PurchaseInvoiceId);
             if (result.Data is not null)
             {
                 Document = result.Data;
