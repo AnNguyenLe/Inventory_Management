@@ -3,7 +3,7 @@
 ## How to use: Change data folder path in: 
 ### InventoryManagement > DataAccess > FileRepository > DataFolderPath.cs
 
-## An simple inventory management system:
+## A simple inventory management system:
 - Thêm, xóa, sửa và tìm kiếm các mặt hàng (mã, tên hàng, hạn dùng, công ty sản xuất, năm sản xuất, loại hàng).
 - Adding, deleting, updating and searching products (product defined by product id, product name, product category, expiration date, manufacturer, year of manufacturing)
   
