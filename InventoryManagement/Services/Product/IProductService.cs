@@ -16,5 +16,5 @@ public interface IProductService
     ServiceResult<string> DeleteProductCategory(string productCategory);
     ServiceResult<List<ProductItem>> GetMatchedProducts(Predicate<ProductItem> predicate);
     ServiceResult<ProductItem> AddProductCategory(ProductItem product);
-
+    ServiceResult<List<ProductItem>> GetExpiredProducts();
 }

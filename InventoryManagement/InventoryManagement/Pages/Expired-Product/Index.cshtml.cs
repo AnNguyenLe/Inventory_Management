@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.Product;
 
-namespace InventoryManagement.Pages.Inventory;
+namespace InventoryManagement.Pages.Expired_Product;
 
 public class IndexModel : PageModel
 {
@@ -22,7 +22,7 @@ public class IndexModel : PageModel
     }
     public void OnGet()
     {
-        var result = _service.GetProducts();
+        var result = _service.GetExpiredProducts();
         if (result.Data is null || result.Data.Count == 0)
         {
             Products = new List<ProductItem>();
@@ -37,11 +37,11 @@ public class IndexModel : PageModel
     {
         if (string.IsNullOrEmpty(SearchText))
         {
-            var products = _service.GetProducts().Data;
+            var products = _service.GetExpiredProducts().Data;
             Products = products is null ? new List<ProductItem>() : products;
             return;
         }
         var result = _service.GetMatchedSearchProducts(SearchText);
-        Products = result.Data is null ? new List<ProductItem>() : result.Data;
+        Products = result.Data is null ? new List<ProductItem>() : result.Data.FindAll(p => p.ExpDate < DateTime.Today);
     }
 }
